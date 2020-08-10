@@ -44,7 +44,7 @@ class ResponsiveDatatable extends StatefulWidget {
       this.autoHeight: true,
       this.hideUnderline: true,
       this.commonMobileView: false,
-      this.isExpandRows:true,
+      this.isExpandRows: true,
       this.expanded,
       this.dropContainer})
       : super(key: key);
@@ -129,37 +129,38 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
                         }),
                 ],
               ),
-              if(widget.commonMobileView)widget.dropContainer(data),
-              if(!widget.commonMobileView)...widget.headers
-                  .where((header) => header.show == true)
-                  .toList()
-                  .map(
-                    (header) => Container(
-                      padding: EdgeInsets.all(11),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          header.headerBuilder != null
-                              ? header.headerBuilder(header.value)
-                              : Text(
-                                  "${header.text}",
-                                  overflow: TextOverflow.clip,
-                                ),
-                          Spacer(),
-                          header.sourceBuilder != null
-                              ? header.sourceBuilder(data[header.value], data)
-                              : header.editable
-                                  ? editAbleWidget(
-                                      data: data,
-                                      header: header,
-                                      textAlign: TextAlign.end,
-                                    )
-                                  : Text("${data[header.value]}")
-                        ],
+              if (widget.commonMobileView) widget.dropContainer(data),
+              if (!widget.commonMobileView)
+                ...widget.headers
+                    .where((header) => header.show == true)
+                    .toList()
+                    .map(
+                      (header) => Container(
+                        padding: EdgeInsets.all(11),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            header.headerBuilder != null
+                                ? header.headerBuilder(header.value)
+                                : Text(
+                                    "${header.text}",
+                                    overflow: TextOverflow.clip,
+                                  ),
+                            Spacer(),
+                            header.sourceBuilder != null
+                                ? header.sourceBuilder(data[header.value], data)
+                                : header.editable
+                                    ? editAbleWidget(
+                                        data: data,
+                                        header: header,
+                                        textAlign: TextAlign.end,
+                                      )
+                                    : Text("${data[header.value]}")
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                  .toList()
+                    )
+                    .toList()
             ],
           ),
         ),
@@ -186,11 +187,22 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
   Widget desktopHeader() {
     return Container(
       decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: Colors.grey[300], width: 1))),
+          border: Border(
+              bottom: BorderSide(
+                  color: Color(0xffC3C6CF).withOpacity(0.26), width: 20))),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          ////////////// THIS IS WHERE THE HEADER MAIN ICON COMES
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Container(
+              height: 10.0,
+              width: 20.0,
+              color: Colors.orange,
+            ),
+          ),
+          ///////////////////////////////////////////////////////
           if (widget.showSelect && widget.selecteds != null)
             Checkbox(
                 value: widget.selecteds.length == widget.source.length &&
@@ -212,13 +224,17 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
                       child: header.headerBuilder != null
                           ? header.headerBuilder(header.value)
                           : Container(
-                              padding: EdgeInsets.all(11),
+                              padding: EdgeInsets.all(0.0),
                               alignment: headerAlignSwitch(header.textAlign),
                               child: Wrap(
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   Text(
                                     "${header.text}",
+                                    style: TextStyle(
+                                        color: Color(0xff090808),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500),
                                     textAlign: header.textAlign,
                                   ),
                                   if (widget.sortColumn != null &&
@@ -245,8 +261,7 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
         children: [
           InkWell(
             onTap: () {
-              widget.onTabRow != null
-                  ? widget.onTabRow(data): null;
+              widget.onTabRow != null ? widget.onTabRow(data) : null;
               setState(() {
                 widget.expanded[index] = !widget.expanded[index];
               });
@@ -259,6 +274,17 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  ////////////// THIS IS WHERE THE CELL'S ICON COMES
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Container(
+                      height: 10.0,
+                      width: 20.0,
+                      color: Colors.orange,
+                    ),
+                  ),
+                  ///////////////////////////////////////////////////////
+
                   if (widget.showSelect && widget.selecteds != null)
                     Row(
                       children: [
@@ -292,6 +318,10 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
                                   : Container(
                                       child: Text(
                                         "${data[header.value]}",
+                                        style: TextStyle(
+                                            color: Color(0xff575454),
+                                            fontSize: 13.0,
+                                            fontWeight: FontWeight.w500),
                                         textAlign: header.textAlign,
                                       ),
                                     ),
@@ -302,7 +332,8 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
               ),
             ),
           ),
-          if(widget.isExpandRows && widget.expanded[index])widget.dropContainer(data)
+          if (widget.isExpandRows && widget.expanded[index])
+            widget.dropContainer(data)
         ],
       ));
     }
@@ -319,6 +350,10 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
       padding: EdgeInsets.all(0),
       margin: EdgeInsets.all(0),
       child: TextField(
+        style: TextStyle(
+            color: Color(0xff575454),
+            fontSize: 13.0,
+            fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           border: this.widget.hideUnderline
